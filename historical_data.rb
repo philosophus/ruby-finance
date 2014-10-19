@@ -5,6 +5,8 @@ require 'json'
 
 class HistoricalData
 
+	# Data consists of the historical data, one entry per day. Each day has the structure
+	# "Date", "Open", "High", "Low", "Close", "Volume", "Adj Close"
 	attr_reader :data
 	attr_reader :symbol
 
@@ -37,6 +39,7 @@ class HistoricalData
 
 	def self.from_json(string)
 		hash = JSON.parse(string)
+		hash["data"].each{|e| e[0] = Time.parse(e[0])}
 		new(hash["symbol"], hash["data"])
 	end
 
